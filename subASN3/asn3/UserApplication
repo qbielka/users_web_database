@@ -1,0 +1,124 @@
+const express = require("express")
+const querystring = require('querystring');
+const Application = express();
+const mysql = require('mysql');
+const fs = require('fs');
+const url = require('url');
+const con = mysql.createConnection({
+    host: "35.199.159.152",
+    user: "Queen",
+    password: "Broodlings",
+    database: "cmpt470"
+});
+
+con.connect();
+console.log("connected");
+
+//Root
+Application.get("/", function(req, res){
+    res.send("Hello This is my users Application");
+    res.end();
+});
+
+Application.get("/connectTest", function(req, res){
+    res.send("<head><title>ConTest</title></head><body><h1>Connection Test</h1><p>Test Success</p></body>");
+    res.end()
+});
+
+Application.get("/Users",function (req, res) {
+    fs.readFile("users.html", function (err, html) {
+        res.writeHeader(200, {"Content-Type": "text/html"});
+        res.write(html);
+        res.end();
+    });
+});
+
+Application.get("/users_database", function (req, res){
+    con.query("SELECT * FROM users", function (err, result, fields) {
+        if (err) throw err;
+        res.send(result);
+        res.end();
+    });
+});
+
+Application.get("/users_add", async function (req, res) {
+    const name = req.query.name;
+    const email = req.query.email;
+    const age = req.query.age;
+    const drink = req.query.drink;
+    const tab = req.query.tab;
+    const id = req.query.id;
+
+    if( name === undefined || email === undefined || age === undefined || drink === undefined){
+        res.send([]);
+        res.end();
+        return;
+    }
+
+    let sql = "INSERT INTO users (name, email, age, drink, tab) ";
+    sql += "Values ("+"'"+name+"', "+"'"+email+"', "+"'"+age+"', "+"'"+drink+"', "+"'"+tab+"')";
+    console.log(sql);
+    let item = 0;
+    await con.query(sql, function (err, result) {
+        if (err) throw err;
+        item = result.insertId;
+        console.log (item)
+        res.send([item]);
+        res.end();
+    });
+});
+
+Application.get("/users_edit", function (req, res) {
+    let id = req.query.id;
+
+    let name = req.query.name;
+    let email = req.query.email;
+    let age = req.query.age;
+    let drink = req.query.drink;
+    let tab = req.query.tab;
+
+    let sql = "UPDATE users SET NAME = '"+name
+        +"', EMAIL = '"+email
+        +"', AGE = '"+age
+        +"', DRINK = '"+drink
+        +"', TAB = '"+tab
+        +"' WHERE id="+id+";";
+    console.log(sql);
+    con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("1 record inserted");
+    });
+
+    res.end();
+});
+
+Application.get("/users_delete", function (req, res)  {
+    const id = req.query.id;
+    console.log(id);
+    con.query("DELETE FROM users WHERE id=" + id, function (err, result) {
+        if (err) throw err;
+        console.log("1 record deleted");
+    });
+
+});
+
+Application.get("/users.css", function (req, res) {
+    fs.readFile("users.css", function (err, css) {
+        res.writeHead(200, {"Content-Type": "text/css"});
+        res.write(css);
+        res.end();
+    });
+});
+
+Application.get("/users.js", function (req, res) {
+    fs.readFile("users.js", function (err, js) {
+        res.writeHead(200, {"Content-Type": "text/js"});
+        res.write(js);
+        res.end();
+    });
+});
+
+
+Application.listen(3000, function(){
+    console.log("server Start");
+});

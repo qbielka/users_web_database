@@ -1,0 +1,20 @@
+
+
+form {
+   /* display: inline-block; */
+    background-color: aqua;
+    max-width: 350px;
+}
+
+.lowerButtons {
+    position:relative;
+    top: -15px;
+}
+
+.invalidButton {
+    background-color: red;
+}
+
+.validButton {
+    background-color: lawngreen;
+}

@@ -1,0 +1,85 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="users.css">
+    <title>Users</title>
+</head>
+
+<body>
+    <form method="post">
+        <fieldset>
+            <legend>Create User</legend>
+            <p>
+                <label for="nameId">Name</label>
+                <input id="nameId" type="text" name="title" onfocus="checkDeleteValid()" />
+            </p>
+            <p>
+                <label for="emailId">Email</label>
+                <input id="emailId" type="email" name="title" />
+            </p>
+            <p>
+                <label for="ageId">Age</label>
+                <input id="ageId" type="number" name="title" />
+            </p>
+            <p>
+                <label for="drinkId">Favourite Drink</label>
+                <input id="drinkId" type="text" name="title" />
+            </p>
+            <p>
+                <label for="tabId">Current Tab</label>
+                <input id="tabId" type="number" name="title" />
+            </p>
+            <input type="button" id="addButton" onclick="addNameToDB()" value="Add User" />
+        </fieldset>
+    </form>
+    <br/>
+    <div class="lowerButtons">
+        <button onclick="clearAndSortByName()">Sort By Name</button>
+        <button onclick="clearAndSortByEmail()">Sort By Email</button>
+        <button onclick="clearAndSortByAge()">Sort By Age</button>
+    </div>
+    <p id="DatabaseOfEntries">
+
+    </p>
+    <br />
+    <p id="AverageAge">
+        The average age of all users is not yet defined because there are no users
+    </p>
+    <form method="post">
+        <fieldset>
+            <legend>Edit User</legend>
+            <p>
+                <label>New Name (Leave blank to remain unchanged)</label>
+                <input id="editNameId" type="text" name="title" />
+            </p>
+            <p>
+                <label>New Email (Leave blank to remain unchanged)</label>
+                <input id="editEmailId" type="email" name="title" />
+            </p>
+            <p>
+                <label>New Age (Leave blank to remain unchanged)</label>
+                <input id="editAgeId" type="number" name="title" />
+            </p>
+            <p>
+                <label for="editDrinkId">New Favourite Drink (Leave blank to remain unchanged)</label>
+                <input id="editDrinkId" type="text" name="title" />
+            </p>
+            <p>
+                <label for="editTabId">New Tab (Leave blank to remain unchanged)</label>
+                <input id="editTabId" type="number" name="title" />
+            </p>
+            <p>
+                <label>ID of User to Change</label>
+                <input id="editIDNumber" type="number" name="title" />
+            </p>
+
+            <input value="Edit" id="editButton" onclick="editView()" type="button" />
+            <input value="Delete" id="deleteButton" onclick="deleteView()" type="button" />
+        </fieldset>
+    </form>
+
+    <script src="users.js"></script>
+</body>
+
+</html>
